@@ -1,7 +1,8 @@
 package org.example.controllers;
 
 import org.example.dto.DirectorDTO;
-import org.example.services.impl.DirectorService;
+import org.example.services.impl.DirectorServiceImpl;
+import org.example.services.interfaces.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

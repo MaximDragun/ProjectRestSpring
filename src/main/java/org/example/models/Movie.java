@@ -13,7 +13,7 @@ public class Movie {
     @Column(name = "movie_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long movieId;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "director_id", referencedColumnName = "director_id")
     private Director directorId;
     private String name;

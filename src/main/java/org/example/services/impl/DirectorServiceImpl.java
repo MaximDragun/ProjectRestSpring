@@ -6,6 +6,7 @@ import org.example.models.Director;
 import org.example.models.Movie;
 import org.example.repositories.DirectorRepository;
 import org.example.repositories.MovieRepository;
+import org.example.services.interfaces.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,13 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Service
 @Transactional(readOnly = true)
-public class DirectorService implements org.example.services.interfaces.DirectorService {
+public class DirectorServiceImpl implements DirectorService {
     private final DirectorRepository directorRepository;
     private final MovieRepository movieRepository;
     private final MapperDTO mapperDTO;
 
     @Autowired
-    public DirectorService(DirectorRepository directorRepository, MovieRepository movieRepository, MapperDTO mapperDTO) {
+    public DirectorServiceImpl(DirectorRepository directorRepository, MovieRepository movieRepository, MapperDTO mapperDTO) {
         this.directorRepository = directorRepository;
         this.movieRepository = movieRepository;
         this.mapperDTO = mapperDTO;

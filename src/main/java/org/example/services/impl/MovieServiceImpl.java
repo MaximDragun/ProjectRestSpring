@@ -159,7 +159,8 @@ public class MovieServiceImpl implements MovieService {
     public void delete(Long id) {
         if (id == null)
             throw new ResponseStatusException(BAD_REQUEST, "Введите id фильма");
-        checkOptionalMovie(id);
+        Movie movie = checkOptionalMovie(id);
+        movie.getDirector().getMovieList().remove(movie);
         movieRepository.deleteById(id);
     }
 

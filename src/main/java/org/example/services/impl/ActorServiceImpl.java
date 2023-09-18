@@ -8,6 +8,7 @@ import org.example.models.Movie;
 import org.example.repositories.ActorRepository;
 import org.example.repositories.DirectorRepository;
 import org.example.repositories.MovieRepository;
+import org.example.services.interfaces.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,14 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Service
 @Transactional(readOnly = true)
-public class ActorService implements org.example.services.interfaces.ActorService {
+public class ActorServiceImpl implements ActorService {
     private final ActorRepository actorRepository;
     private final DirectorRepository directorRepository;
     private final MovieRepository movieRepository;
     private final MapperDTO mapperDTO;
 
     @Autowired
-    public ActorService(ActorRepository actorRepository, DirectorRepository directorRepository, MovieRepository movieRepository, MapperDTO mapperDTO) {
+    public ActorServiceImpl(ActorRepository actorRepository, DirectorRepository directorRepository, MovieRepository movieRepository, MapperDTO mapperDTO) {
         this.actorRepository = actorRepository;
         this.directorRepository = directorRepository;
         this.movieRepository = movieRepository;
