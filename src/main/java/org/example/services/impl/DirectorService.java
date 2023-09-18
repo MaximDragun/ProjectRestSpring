@@ -1,4 +1,4 @@
-package org.example.services;
+package org.example.services.impl;
 
 import org.example.dto.DirectorDTO;
 import org.example.mapping.MapperDTO;
@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Service
 @Transactional(readOnly = true)
-public class DirectorService {
+public class DirectorService implements org.example.services.interfaces.DirectorService {
     private final DirectorRepository directorRepository;
     private final MovieRepository movieRepository;
     private final MapperDTO mapperDTO;
@@ -62,11 +62,12 @@ public class DirectorService {
                 List<Movie> movies = director.getMovieList();
                 director.setMovieList(new ArrayList<>());
                 Director saveDirector = directorRepository.save(director);
+
                 for (Movie movie : movies) {
                     movie.setDirector(saveDirector);
                     movie.setActorList(new ArrayList<>());
                     Movie saveMovie = movieRepository.save(movie);
-                    director.getMovieList().add(saveMovie);
+                    saveDirector.getMovieList().add(saveMovie);
                 }
             } else
                 throw new ResponseStatusException(BAD_REQUEST, "У режиссера должен быть или пустой список фильмов " +
@@ -74,7 +75,6 @@ public class DirectorService {
                         "может быть id и directorId, но должны быть year, name" +
                         ", год фильма должен быть больше 1900, такие вот правила");
         }
-
     }
 
     @Transactional
@@ -86,9 +86,8 @@ public class DirectorService {
         }
         if (directorDTO.getMovieList() == null || directorDTO.getMovieList().isEmpty()) {//Не меняем список фильмов
             Director checkDirector = checkOptionalDirector(directorDTO.getId());
-            Director director = mapperDTO.toDirector(directorDTO);
-            director.setMovieList(checkDirector.getMovieList());
-            directorRepository.save(director);
+            checkDirector.setAge(directorDTO.getAge());
+            checkDirector.setName(directorDTO.getName());
         } else {
             boolean checkActorsNull = directorDTO.getMovieList().stream()
                     .allMatch(movie -> movie.getActorList() == null && movie.getId() == null && movie.getDirectorId() == null

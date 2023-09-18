@@ -1,7 +1,7 @@
 package org.example.controllers;
 
 import org.example.dto.MovieDTO;
-import org.example.services.MovieService;
+import org.example.services.interfaces.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,6 +56,15 @@ public class MovieController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         movieService.delete(id);
+        return ResponseEntity
+                .ok()
+                .build();
+    }
+
+    @PostMapping("/addLink")
+    public ResponseEntity<HttpStatus> addLink(@RequestParam("movieId") Long movieId,
+                                              @RequestParam("actorId") Long actorId) {
+        movieService.addLinkMovieActor(movieId, actorId);
         return ResponseEntity
                 .ok()
                 .build();

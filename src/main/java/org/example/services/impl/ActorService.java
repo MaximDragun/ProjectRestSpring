@@ -1,4 +1,4 @@
-package org.example.services;
+package org.example.services.impl;
 
 import org.example.dto.ActorDTO;
 import org.example.mapping.MapperDTO;
@@ -22,7 +22,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Service
 @Transactional(readOnly = true)
-public class ActorService {
+public class ActorService implements org.example.services.interfaces.ActorService {
     private final ActorRepository actorRepository;
     private final DirectorRepository directorRepository;
     private final MovieRepository movieRepository;
