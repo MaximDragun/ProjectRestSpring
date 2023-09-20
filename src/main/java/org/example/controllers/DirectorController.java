@@ -1,7 +1,6 @@
 package org.example.controllers;
 
 import org.example.dto.DirectorDTO;
-import org.example.services.impl.DirectorServiceImpl;
 import org.example.services.interfaces.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class DirectorController {
         this.directorService = directorService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<DirectorDTO>> getDirectors() {
         return ResponseEntity
                 .status(OK)
@@ -39,7 +38,7 @@ public class DirectorController {
                 .body(directorService.findById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody DirectorDTO directorDTO) {
         directorService.create(directorDTO);
         return ResponseEntity

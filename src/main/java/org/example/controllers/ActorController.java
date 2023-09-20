@@ -1,7 +1,6 @@
 package org.example.controllers;
 
 import org.example.dto.ActorDTO;
-import org.example.services.impl.ActorServiceImpl;
 import org.example.services.interfaces.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class ActorController {
         this.actorService = actorService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ActorDTO>> getActors() {
         return ResponseEntity
                 .status(OK)
@@ -39,7 +38,7 @@ public class ActorController {
                 .body(actorService.findById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody ActorDTO actorDTO) {
         actorService.create(actorDTO);
         return ResponseEntity

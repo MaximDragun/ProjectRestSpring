@@ -21,7 +21,7 @@ public class MovieController {
     }
 
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<MovieDTO>> getMovies() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -37,7 +37,7 @@ public class MovieController {
                 .body(movieService.findById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody MovieDTO movieDTO) {
         movieService.create(movieDTO);
         return ResponseEntity

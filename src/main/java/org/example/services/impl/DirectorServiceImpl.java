@@ -85,7 +85,7 @@ public class DirectorServiceImpl implements DirectorService {
             throw new ResponseStatusException(BAD_REQUEST, "У изменяемого режиссера должны быть такие поля как id, " +
                     "name и age, при чем age больше 18 и age меньше 100");
         }
-        if (directorDTO.getMovieList() == null || directorDTO.getMovieList().isEmpty()) {//Не меняем список фильмов
+        if (directorDTO.getMovieList() == null || directorDTO.getMovieList().isEmpty()) {
             Director checkDirector = checkOptionalDirector(directorDTO.getId());
             checkDirector.setAge(directorDTO.getAge());
             checkDirector.setName(directorDTO.getName());
@@ -94,7 +94,7 @@ public class DirectorServiceImpl implements DirectorService {
                     .allMatch(movie -> movie.getActorList() == null && movie.getId() == null && movie.getDirectorId() == null
                             && movie.getYear() != null && movie.getYear() > 1900 && movie.getName() != null);
 
-            if (checkActorsNull) {//Добавляем этому режисеру новые указанные фильмы
+            if (checkActorsNull) {
                 Director checkDirector = checkOptionalDirector(directorDTO.getId());// из базы
                 checkDirector.setName(directorDTO.getName());
                 checkDirector.setAge(directorDTO.getAge());
