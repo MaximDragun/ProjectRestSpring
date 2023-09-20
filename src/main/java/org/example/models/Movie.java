@@ -1,9 +1,16 @@
 package org.example.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.List;
 import java.util.Objects;
 
+import static javax.persistence.GenerationType.IDENTITY;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
@@ -11,15 +18,15 @@ import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 public class Movie {
     @Id
     @Column(name = "movie_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long movieId;
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "director_id", referencedColumnName = "director_id")
     private Director directorId;
     private String name;
     @Column(name = "year_of_production")
     private Integer yearOfProduction;
-    @ManyToMany(mappedBy = "movieList", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "movieList")
     private List<Actor> actorList;
 
     public Movie() {

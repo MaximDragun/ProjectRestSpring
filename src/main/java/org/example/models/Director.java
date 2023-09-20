@@ -1,9 +1,15 @@
 package org.example.models;
 
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Objects;
 
+import static javax.persistence.GenerationType.IDENTITY;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
@@ -11,11 +17,11 @@ import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 public class Director {
     @Id
     @Column(name = "director_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long directorId;
     private String name;
     private Integer age;
-    @OneToMany(mappedBy = "directorId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "directorId")
     private List<Movie> movieList;
 
     public Director() {

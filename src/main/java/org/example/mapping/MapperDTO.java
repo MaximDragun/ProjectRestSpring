@@ -6,7 +6,12 @@ import org.example.dto.MovieDTO;
 import org.example.models.Actor;
 import org.example.models.Director;
 import org.example.models.Movie;
-import org.mapstruct.*;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.IterableMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
