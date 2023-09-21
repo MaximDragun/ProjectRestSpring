@@ -6,27 +6,12 @@ import org.example.models.Movie;
 import org.example.repositories.ActorRepository;
 import org.example.repositories.DirectorRepository;
 import org.example.repositories.MovieRepository;
-import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringRunner.class)
-@SpringJUnitConfig(classes = {ActorRepositoryTest.Config.class})
+@SpringJUnitConfig(JpaTestConfig.class)
+@ExtendWith(PostgreSQLExtension.class)
 @Transactional
-public class ActorRepositoryTest {
+class ActorRepositoryTest {
 
     @Autowired
     private ActorRepository actorRepository;
@@ -48,68 +33,8 @@ public class ActorRepositoryTest {
     @Autowired
     private DirectorRepository directorRepository;
 
-    @Configuration
-    @ComponentScan("org.example.repositories")
-    @EnableTransactionManagement
-    @EnableJpaRepositories("org.example.repositories")
-    static public class Config {
-        private static PostgreSQLContainer<?> container;
-
-        static {
-            container = new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
-                    .withDatabaseName("project2")
-                    .withUsername("postgres")
-                    .withPassword("maxim")
-                    .withInitScript("db/NewTables.sql");
-            container.start();
-        }
-
-        static void stop() {
-            container.stop();
-            container.close();
-        }
-
-        @Bean
-        public DataSource dataSource() {
-            DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-            dataSource.setDriverClassName(container.getDriverClassName());
-            dataSource.setUrl(container.getJdbcUrl());
-            dataSource.setUsername(container.getUsername());
-            dataSource.setPassword(container.getPassword());
-
-            return dataSource;
-        }
-
-        @Bean
-        public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-            final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-            em.setDataSource(dataSource());
-            em.setPackagesToScan("org.example.models");
-
-            final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-            em.setJpaVendorAdapter(vendorAdapter);
-
-            return em;
-        }
-
-        @Bean
-        public PlatformTransactionManager transactionManager() {
-            JpaTransactionManager transactionManager = new JpaTransactionManager();
-            transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-
-            return transactionManager;
-        }
-    }
-
-
-    @AfterAll
-    public static void testAfter() {
-        ActorRepositoryTest.Config.stop();
-    }
-
     @Test
-    public void testSaveAndFindById() {
+    void testSaveAndFindById() {
         Actor actor = new Actor();
         actor.setName("Steven Spielberg");
         actor.setAge(75);
@@ -122,7 +47,7 @@ public class ActorRepositoryTest {
     }
 
     @Test
-    public void testSaveAndFindAll() {
+    void testSaveAndFindAll() {
         Actor actor1 = new Actor();
         actor1.setName("Steven Spielberg");
         actor1.setAge(75);
@@ -136,7 +61,7 @@ public class ActorRepositoryTest {
     }
 
     @Test
-    public void testSaveAndDeleteForId() {
+    void testSaveAndDeleteForId() {
         Actor actor1 = new Actor();
         actor1.setName("Steven Spielberg");
         actor1.setAge(75);
@@ -152,7 +77,7 @@ public class ActorRepositoryTest {
     }
 
     @Test
-    public void testActorMovieList() {
+    void testActorMovieList() {
         Director director1 = new Director();
         director1.setName("Steven Spielberg");
         director1.setAge(75);
